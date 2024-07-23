@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PROGETTO_S2.Models.Prenotazione>
+
+@{
+    ViewBag.Title = "CercaPrenotazione";
+}
+
+<h2>CercaPrenotazione</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Identificativo Spedizione</th>
+            <th>Data di prenotazione</th>
+            <th>Numero progressivo</th>
+            <th>Anno</th>
+            <th>Soggiorno Dal</th>
+            <th>Soggiorno Al</th>
+            <th>Caparra</th>
+            <th>Tariffa</th>
+            <th>Tipo Pensione</th>
+            <th>Identificativo persona</th>
+            <th>Identificativo camera</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prenotazione in Model)
+        {
+            <tr>
+                <td>@prenotazione.IdPrenotazione</td>
+                <td>@prenotazione.DataPrenotazione.ToString("dd/MM/yyyy")</td>
+                <td>@prenotazione.NumProgressivo</td>
+                <td>@prenotazione.Anno</td>
+                <td>@prenotazione.SoggiornoDal.ToString("dd/MM/yyyy")</td>
+                <td>@prenotazione.SoggiornoAl.ToString("dd/MM/yyyy")</td>
+                <td>@prenotazione.Caparra</td>
+                <td>@prenotazione.Tariffa</td>
+                <td>@prenotazione.TipoPensione</td>
+                <td>@prenotazione.IdPersona</td>
+                <td>@prenotazione.IdCamera</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>

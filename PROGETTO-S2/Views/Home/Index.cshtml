@@ -1,8 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<h1>Ricerca Prenotazione</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form asp-controller="Home" asp-action="CercaPrenotazioni" method="post">
+    <div class="form-group">
+        <label for="codiceFiscale">Codice Fiscale:</label>
+        <input type="text" id="codiceFiscale" name="codiceFiscale" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cerca Prenotazione</button>
+</form>
