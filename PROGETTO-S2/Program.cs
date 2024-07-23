@@ -15,7 +15,8 @@ builder.Services
     });
 
 builder.Services
-    .AddScoped<IAuthService, AuthService>();
+    .AddScoped<IAuthService, AuthService>()
+    .AddScoped<IPrenotazioniService, PrenotazioneService>();
 
 var app = builder.Build();
 

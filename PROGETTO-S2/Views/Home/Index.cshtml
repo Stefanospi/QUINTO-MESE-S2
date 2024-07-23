@@ -1,13 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
 <h1>Ricerca Prenotazione</h1>
 
-<form asp-controller="Home" asp-action="CercaPrenotazioni" method="post">
+<form asp-action="CercaPrenotazioni" method="post">
     <div class="form-group">
         <label for="codiceFiscale">Codice Fiscale:</label>
         <input type="text" id="codiceFiscale" name="codiceFiscale" class="form-control" />
     </div>
-
     <button type="submit" class="btn btn-primary">Cerca Prenotazione</button>
 </form>
+
+<hr />
+
+<h1>Ricerca Prenotazione per Tipo Pensione</h1>
+
+<form asp-action="CercaPrenotazioniByTipo" method="post">
+    <div class="form-group">
+        <label for="TipoPensione">Tipo pensione:</label>
+        <input type="text" id="TipoPensione" name="TipoPensione" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Cerca Prenotazione</button>
+</form>
+

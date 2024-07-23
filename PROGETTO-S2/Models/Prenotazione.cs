@@ -13,5 +13,7 @@
         public string TipoPensione { get; set; }
         public int IdPersona { get; set; }
         public int IdCamera { get; set; }
+        public string Nome { get; set; }
+        public string Cognome { get; set; }
     }
 }

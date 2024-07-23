@@ -6,16 +6,17 @@ using System.Diagnostics;
 
 namespace PROGETTO_S2.Controllers
 {
-    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPrenotazioniService _prenotazioniService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPrenotazioniService prenotazioniService)
         {
             _logger = logger;
+            _prenotazioniService = prenotazioniService;
         }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -23,28 +24,65 @@ namespace PROGETTO_S2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CercaPrenotazioni(string CF)
+        public IActionResult CercaPrenotazioni(string codiceFiscale)
         {
+            try
             {
-                try
+                if (!string.IsNullOrEmpty(codiceFiscale))
                 {
-                    if (!string.IsNullOrEmpty(CF))
+                    var prenotazioni = _prenotazioniService.GetPrenotazioni(codiceFiscale);
+                    if (prenotazioni != null && prenotazioni.Any())
                     {
-                        var prenotazione = _prenotazioniService.GetPrenotazioni(CF);
-                        return View("CercaPrenotazioni", prenotazione);
+                        return View("CercaPrenotazioni", prenotazioni);
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Inserisci un codice fiscale");
+                        ModelState.AddModelError(string.Empty, "Nessuna prenotazione trovata.");
                         return RedirectToAction("Index");
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la ricerca della prenotazione. Riprova più tardi.");
-                    _logger.LogError(ex, "Errore durante la ricerca della prenotazione.");
+                    ModelState.AddModelError(string.Empty, "Inserisci un codice fiscale.");
                     return RedirectToAction("Index");
                 }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la ricerca della prenotazione. Riprova più tardi.");
+                _logger.LogError(ex, "Errore durante la ricerca della prenotazione.");
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public IActionResult CercaPrenotazioniByTipo(string tipoPensione)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(tipoPensione))
+                {
+                    var prenotazioni = _prenotazioniService.GetPrenotazioneByTipoPensione(tipoPensione);
+                    if (prenotazioni != null && prenotazioni.Any())
+                    {
+                        return View("CercaPrenotazioniByTipo", prenotazioni);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Nessuna prenotazione trovata.");
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Inserisci un tipo di pensione.");
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la ricerca della prenotazione. Riprova più tardi.");
+                _logger.LogError(ex, "Errore durante la ricerca della prenotazione.");
+                return RedirectToAction("Index");
             }
         }
 
