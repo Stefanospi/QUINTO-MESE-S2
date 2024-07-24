@@ -6,15 +6,18 @@ using System.Diagnostics;
 
 namespace PROGETTO_S2.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPrenotazioniService _prenotazioniService;
+        private readonly ICreationService _creationService;
 
-        public HomeController(ILogger<HomeController> logger, IPrenotazioniService prenotazioniService)
+        public HomeController(ILogger<HomeController> logger, IPrenotazioniService prenotazioniService,ICreationService creationService)
         {
             _logger = logger;
             _prenotazioniService = prenotazioniService;
+            _creationService = creationService;
         }
 
         [Authorize]
@@ -84,6 +87,47 @@ namespace PROGETTO_S2.Controllers
                 return RedirectToAction("Index");
             }
         }
+        public IActionResult CreatePersona()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreatePersona(Persona persona)
+        {
+            if (ModelState.IsValid)
+            {
+                _creationService.CreatePersona(persona);
+                return RedirectToAction("Index");
+            }
+            return View(persona);
+        }
+        public IActionResult ElencoPersone()
+        {
+            var persona = _creationService.GetPersona();
+            return View(persona);
+        }
+        public IActionResult CreatePrenotazione()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreatePrenotazione(Prenotazione prenotazione)
+        {
+            if (ModelState.IsValid)
+            {
+                _creationService.CreatePrenotazione(prenotazione);
+                return RedirectToAction("Index");
+            }
+            return View(prenotazione);
+
+        }
+        public IActionResult ElencoPrenotazioni()
+        {
+            var prenotazione = _creationService.GetPrenotazione();
+            return View(prenotazione);
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

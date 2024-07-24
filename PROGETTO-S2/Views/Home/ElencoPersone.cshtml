@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PROGETTO_S2.Models.Persona>
+
+<h2>Elenco persone:</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Codice Fiscale</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Cellulare</th>
+                <th>Città</th>
+                <th>Provincia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var persona in Model)
+            {
+                <tr>
+                    <td>@persona.Nome</td>
+                    <td>@persona.Cognome</td>
+                    <td>@persona.CF</td>
+                    <td>@persona.Email</td>
+                    <td>@persona.Telefono</td>
+                    <td>@persona.Cellulare</td>
+                    <td>@persona.Città</td>
+                    <td>@persona.Provincia</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nessun cliente trovato.</p>
+}

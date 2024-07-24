@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PROGETTO_S2.Models.Prenotazione>
+
+<h2>Elenco persone:</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data Prenotazione</th>
+                <th>Numero Progressivo</th>
+                <th>Anno</th>
+                <th>Soggiorno Dal</th>
+                <th>Soggiorno Al</th>
+                <th>Caparra</th>
+                <th>Tariffa</th>
+                <th>Tipo Pensione</th>
+                <th>Identificativo cliente</th>
+                <th>Identificativo camera</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prenotazione in Model)
+            {
+                <tr>
+                    <td>@prenotazione.DataPrenotazione</td>
+                    <td>@prenotazione.NumProgressivo</td>
+                    <td>@prenotazione.Anno</td>
+                    <td>@prenotazione.SoggiornoDal</td>
+                    <td>@prenotazione.SoggiornoAl</td>
+                    <td>@prenotazione.Caparra</td>
+                    <td>@prenotazione.Tariffa</td>
+                    <td>@prenotazione.TipoPensione</td>
+                    <td>@prenotazione.IdPersona</td>
+                    <td>@prenotazione.IdCamera</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nessun cliente trovato.</p>
+}

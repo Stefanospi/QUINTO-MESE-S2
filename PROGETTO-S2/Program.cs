@@ -16,7 +16,8 @@ builder.Services
 
 builder.Services
     .AddScoped<IAuthService, AuthService>()
-    .AddScoped<IPrenotazioniService, PrenotazioneService>();
+    .AddScoped<IPrenotazioniService, PrenotazioneService>()
+    .AddScoped<ICreationService, CreateService>();
 
 var app = builder.Build();
 
