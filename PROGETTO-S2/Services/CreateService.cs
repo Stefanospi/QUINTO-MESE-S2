@@ -12,8 +12,8 @@ namespace PROGETTO_S2.Services
             "OUTPUT INSERTED.IdPersona " +
             "VALUES (@Nome, @Cognome, @CF, @Email, @Telefono, @Cellulare, @Città, @Provincia)";
         private const string CREATE_PRENOTAZIONE_COMMAND = "" +
-            "INSERT INTO [dbo].[Prenotazioni] (DataPrenotazione, NumProgressivo, Anno, SoggiornoDal, SoggiornoAl, Caparra, Tariffa, TipoPensione, IdPersona, IdCamera)" +
-            "OUTPUT INSERTED.IdPrenotazione" +
+            "INSERT INTO [dbo].[Prenotazioni] (DataPrenotazione, NumProgressivo, Anno, SoggiornoDal, SoggiornoAl, Caparra, Tariffa, TipoPensione, IdPersona, IdCamera) " +
+            "OUTPUT INSERTED.IdPrenotazione " +
             "VALUES (@DataPrenotazione,@NumProgressivo, @Anno, @SoggiornoDal,@SoggiornoAl, @Caparra, @Tariffa, @TipoPensione, @IdPersona, @IdCamera)";
         private const string GET_PERSONA_COMMAND = "SELECT * FROM Persone;";
         private const string GET_PRENOTAZIONE_COMMAND = "SELECT * FROM Prenotazioni;";
@@ -69,7 +69,15 @@ namespace PROGETTO_S2.Services
                         command.Parameters.AddWithValue("@TipoPensione", prenotazione.TipoPensione);
                         command.Parameters.AddWithValue("@IdPersona", prenotazione.IdPersona);
                         command.Parameters.AddWithValue("@IdCamera", prenotazione.IdCamera);
-                        prenotazione.IdPrenotazione = (int)command.ExecuteScalar();
+                        var result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            prenotazione.IdPrenotazione = (int)result;
+                        }
+                        else
+                        {
+                            throw new Exception("Failed to retrieve the inserted IdPrenotazione.");
+                        }
                     }
                 }
                 return prenotazione;
