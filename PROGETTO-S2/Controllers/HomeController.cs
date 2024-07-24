@@ -22,15 +22,14 @@ namespace PROGETTO_S2.Controllers
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult CercaPrenotazioni(string codiceFiscale)
+        public async Task<IActionResult> CercaPrenotazioni(string codiceFiscale)
         {
             try
             {
                 if (!string.IsNullOrEmpty(codiceFiscale))
                 {
-                    var prenotazioni = _prenotazioniService.GetPrenotazioni(codiceFiscale);
+                    var prenotazioni = await _prenotazioniService.GetPrenotazioni(codiceFiscale);
                     if (prenotazioni != null && prenotazioni.Any())
                     {
                         return View("CercaPrenotazioni", prenotazioni);

@@ -24,49 +24,42 @@ namespace PROGETTO_S2.Services
             _connectionString = configuration.GetConnectionString("Authdb");
         }
 
-        public List<Prenotazione> GetPrenotazioni(string CF)
+        public async Task<List<Prenotazione>> GetPrenotazioni(string CF)
         {
-            try
+            var prenotazioni = new List<Prenotazione>();
+
+            using (var connection = new SqlConnection(_connectionString))
             {
-                using (var connection = new SqlConnection(_connectionString))
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(GET_PRENOTAZIONI_COMMAND, connection))
                 {
-                    connection.Open();
-                    using (var command = new SqlCommand(GET_PRENOTAZIONI_COMMAND, connection))
+                    command.Parameters.AddWithValue("@CF", CF);
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
-                        command.Parameters.AddWithValue("@CF", CF);
-                        using (var reader = command.ExecuteReader())
+                        while (await reader.ReadAsync())
                         {
-                            List<Prenotazione> prenotazioni = new List<Prenotazione>();
-                            while (reader.Read())
+                            var prenotazione = new Prenotazione
                             {
-                                var prenotazione = new Prenotazione
-                                {
-                                    IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
-                                    DataPrenotazione = reader.GetDateTime(reader.GetOrdinal("DataPrenotazione")),
-                                    NumProgressivo = reader.GetInt32(reader.GetOrdinal("NumProgressivo")),
-                                    Anno = reader.GetInt32(reader.GetOrdinal("Anno")),
-                                    SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
-                                    SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
-                                    Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra")),
-                                    Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
-                                    TipoPensione = reader.GetString(reader.GetOrdinal("TipoPensione")),
-                                    IdPersona = reader.GetInt32(reader.GetOrdinal("IdPersona")),
-                                    IdCamera = reader.GetInt32(reader.GetOrdinal("IdCamera")),
-                                    Nome = reader.GetString(reader.GetOrdinal("Nome")),
-                                    Cognome = reader.GetString(reader.GetOrdinal("Cognome"))
-                                };
-                                prenotazioni.Add(prenotazione);
-                            }
-                            reader.Close();
-                            return prenotazioni;
+                                IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
+                                DataPrenotazione = reader.GetDateTime(reader.GetOrdinal("DataPrenotazione")),
+                                NumProgressivo = reader.GetInt32(reader.GetOrdinal("NumProgressivo")),
+                                Anno = reader.GetInt32(reader.GetOrdinal("Anno")),
+                                SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
+                                SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
+                                Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra")),
+                                Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
+                                TipoPensione = reader.GetString(reader.GetOrdinal("TipoPensione")),
+                                Nome = reader.GetString(reader.GetOrdinal("Nome")),
+                                Cognome = reader.GetString(reader.GetOrdinal("Cognome")),
+                                IdCamera = reader.GetInt32(reader.GetOrdinal("IdCamera")),
+                            };
+                            prenotazioni.Add(prenotazione);
                         }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Errore durante il recupero delle prenotazioni", ex);
-            }
+
+            return prenotazioni;
         }
 
         public List<Prenotazione> GetPrenotazioneByTipoPensione(string tipoPensione)
