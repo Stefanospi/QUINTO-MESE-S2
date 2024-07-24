@@ -13,6 +13,7 @@ namespace PROGETTO_S2.Services
         {
             _connectionString = configuration.GetConnectionString("Authdb");
         }
+
         public Utente Login(string username, string password)
         {
             try
@@ -22,13 +23,14 @@ namespace PROGETTO_S2.Services
                     connection.Open();
                     using (var command = new SqlCommand(LOGIN_COMMAND, connection))
                     {
+                        var hashedPassword = PasswordHelper.HashPassword(password);
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@Password", hashedPassword);
                         using (var reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                var user= new Utente
+                                var user = new Utente
                                 {
                                     IdUtente = reader.GetInt32(reader.GetOrdinal("IdUtente")),
                                     Username = reader.GetString(reader.GetOrdinal("Username")),
@@ -37,14 +39,12 @@ namespace PROGETTO_S2.Services
                                 reader.Close();
                                 return user;
                             }
-                            
                         }
                     }
                 }
                 return null;
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Errore durante il login", ex);
             }
@@ -59,14 +59,15 @@ namespace PROGETTO_S2.Services
                     connection.Open();
                     using (var command = new SqlCommand(REGISTER_COMMAND, connection))
                     {
+                        var hashedPassword = PasswordHelper.HashPassword(password);
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password); // Cripta la password se necessario
+                        command.Parameters.AddWithValue("@Password", hashedPassword);
                         var userId = Convert.ToInt32(command.ExecuteScalar());
                         return new Utente
                         {
                             IdUtente = userId,
                             Username = username,
-                            Password = password
+                            Password = hashedPassword
                         };
                     }
                 }
