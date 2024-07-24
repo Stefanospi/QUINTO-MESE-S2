@@ -17,6 +17,7 @@ namespace PROGETTO_S2.Services
             "VALUES (@DataPrenotazione,@NumProgressivo, @Anno, @SoggiornoDal,@SoggiornoAl, @Caparra, @Tariffa, @TipoPensione, @IdPersona, @IdCamera)";
         private const string GET_PERSONA_COMMAND = "SELECT * FROM Persone;";
         private const string GET_PRENOTAZIONE_COMMAND = "SELECT * FROM Prenotazioni;";
+        private const string GET_PRENOTAZIONE_BY_ID = "SELECT * FROM Prenotazioni WHERE IdPrenotazione = @IdPrenotazione";
         public CreateService(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Authdb");
@@ -59,6 +60,7 @@ namespace PROGETTO_S2.Services
                     connection.Open();
                     using (var command = new SqlCommand(CREATE_PRENOTAZIONE_COMMAND, connection))
                     {
+                        // Aggiungi parametri
                         command.Parameters.AddWithValue("@DataPrenotazione", prenotazione.DataPrenotazione);
                         command.Parameters.AddWithValue("@NumProgressivo", prenotazione.NumProgressivo);
                         command.Parameters.AddWithValue("@Anno", prenotazione.Anno);
@@ -69,10 +71,13 @@ namespace PROGETTO_S2.Services
                         command.Parameters.AddWithValue("@TipoPensione", prenotazione.TipoPensione);
                         command.Parameters.AddWithValue("@IdPersona", prenotazione.IdPersona);
                         command.Parameters.AddWithValue("@IdCamera", prenotazione.IdCamera);
+
+                        // Esegui il comando
                         var result = command.ExecuteScalar();
                         if (result != null)
                         {
-                            prenotazione.IdPrenotazione = (int)result;
+                            prenotazione.IdPrenotazione = Convert.ToInt32(result);
+                            Console.WriteLine("Prenotazione created with Id: " + prenotazione.IdPrenotazione);
                         }
                         else
                         {
@@ -177,6 +182,49 @@ namespace PROGETTO_S2.Services
             catch(Exception ex)
             {
                    throw new Exception("Errore durante il recupero della prenotazione", ex);
+            }
+        }
+        public Prenotazione GetPrenotazioneById(int id)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    using (var command = new SqlCommand(GET_PRENOTAZIONE_BY_ID, connection))
+                    {
+                        command.Parameters.AddWithValue("@IdPrenotazione", id);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                var prenotazione = new Prenotazione
+                                {
+                                    IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
+                                    DataPrenotazione = reader.GetDateTime(reader.GetOrdinal("DataPrenotazione")),
+                                    NumProgressivo = reader.GetInt32(reader.GetOrdinal("NumProgressivo")),
+                                    Anno = reader.GetInt32(reader.GetOrdinal("Anno")),
+                                    SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
+                                    SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
+                                    Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra")),
+                                    Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
+                                    TipoPensione = reader.GetString(reader.GetOrdinal("TipoPensione")),
+                                    IdPersona = reader.GetInt32(reader.GetOrdinal("IdPersona")),
+                                    IdCamera = reader.GetInt32(reader.GetOrdinal("IdCamera"))
+                                };
+                                return prenotazione;
+                            }
+                            else
+                            {
+                                throw new Exception("Prenotazione not found.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Errore durante il recupero della prenotazione", ex);
             }
         }
     }

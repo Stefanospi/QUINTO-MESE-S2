@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PROGETTO_S2.Models;
 using PROGETTO_S2.Services;
 using System.Diagnostics;
@@ -110,23 +111,48 @@ namespace PROGETTO_S2.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult CreatePrenotazione(Prenotazione prenotazione)
         {
             if (ModelState.IsValid)
             {
-                _creationService.CreatePrenotazione(prenotazione);
-                return RedirectToAction("Index");
+                try
+                {
+                    Console.WriteLine("Creating Prenotazione with data: " + JsonConvert.SerializeObject(prenotazione));
+                    _creationService.CreatePrenotazione(prenotazione);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Errore durante la creazione della prenotazione: " + ex.Message);
+                    Console.WriteLine("Errore durante la creazione della prenotazione: " + ex.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("ModelState is not valid.");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine("ModelState error: " + error.ErrorMessage);
+                }
             }
             return View(prenotazione);
-
         }
         public IActionResult ElencoPrenotazioni()
         {
             var prenotazione = _creationService.GetPrenotazione();
             return View(prenotazione);
         }
-
+        public IActionResult Details(int id)
+        {
+            var prenotazione =  _creationService.GetPrenotazioneById(id);
+            if (prenotazione == null)
+            {
+                return NotFound();
+            }
+            return View(prenotazione);
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

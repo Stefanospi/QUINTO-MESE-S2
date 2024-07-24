@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PROGETTO_S2.Models.Prenotazione>
 
-<h2>Elenco persone:</h2>
+<h2>Elenco prenotazioni:</h2>
 
 @if (Model != null && Model.Any())
 {
@@ -17,7 +17,7 @@
                 <th>Tipo Pensione</th>
                 <th>Identificativo cliente</th>
                 <th>Identificativo camera</th>
-
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +34,9 @@
                     <td>@prenotazione.TipoPensione</td>
                     <td>@prenotazione.IdPersona</td>
                     <td>@prenotazione.IdCamera</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@prenotazione.IdPrenotazione">Dettagli</a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -41,5 +44,5 @@
 }
 else
 {
-    <p>Nessun cliente trovato.</p>
+    <p>Nessuna prenotazione trovata.</p>
 }
