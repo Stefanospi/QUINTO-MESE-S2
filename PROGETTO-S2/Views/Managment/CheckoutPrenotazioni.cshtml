@@ -1,11 +1,10 @@
-﻿@model IEnumerable<PROGETTO_S2.Models.CheckoutModel>
+﻿@model PROGETTO_S2.Models.CheckoutModel
 
 <h2>Checkout Prenotazioni</h2>
 
 <table class="table">
     <thead>
         <tr>
-
             <th>Numero Camera</th>
             <th>Soggiorno Dal</th>
             <th>Soggiorno Al</th>
@@ -19,21 +18,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var prenotazione in Model)
-        {
-            <tr>
-                <td>@prenotazione.NumeroCamera</td>
-                <td>@prenotazione.SoggiornoDal.ToString("dd/MM/yyyy")</td>
-                <td>@prenotazione.SoggiornoAl.ToString("dd/MM/yyyy")</td>
-                <td>@prenotazione.Tariffa.ToString("C")</td>
-                <td>@prenotazione.Caparra.ToString("C")</td>
-                <td>@prenotazione.ServizioAggiuntivo</td>
-                <td>@prenotazione.DataServizio?.ToString("dd/MM/yyyy")</td>
-                <td>@prenotazione.Quantita</td>
-                <td>@prenotazione.Prezzo?.ToString("C")</td>
-                <td>@prenotazione.ImportoDaSaldare.ToString("C")</td>
-            </tr>
-        }
+        <tr>
+            <td>@Model.NumeroCamera</td>
+            <td>@Model.SoggiornoDal.ToString("dd/MM/yyyy")</td>
+            <td>@Model.SoggiornoAl.ToString("dd/MM/yyyy")</td>
+            <td>@Model.Tariffa.ToString("C")</td>
+            <td>@Model.Caparra.ToString("C")</td>
+            <td>@Model.ServizioAggiuntivo</td>
+            <td>@Model.DataServizio?.ToString("dd/MM/yyyy")</td>
+            <td>@Model.Quantita</td>
+            <td>@Model.Prezzo?.ToString("C")</td>
+            <td>@Model.ImportoDaSaldare.ToString("C")</td>
+        </tr>
     </tbody>
 </table>
 

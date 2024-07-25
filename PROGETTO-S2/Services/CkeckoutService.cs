@@ -8,18 +8,18 @@ namespace PROGETTO_S2.Services
         private readonly string _connectionString;
         private readonly ILogger<CheckoutService> _logger;
         private const string GET_PRENOTAZIONE_CON_IMPORTO_DA_SALDARE_COMMAND = @"
-        SELECT 
-            p.IdPrenotazione,
-            c.NumeroCamera,
-            p.SoggiornoDal,
-            p.SoggiornoAl,
-            p.Tariffa,
-            p.Caparra,
-            sa.Descrizione AS ServizioAggiuntivo,
-            psa.Data AS DataServizio,
-            psa.Quantita,
-            psa.Prezzo,
-            (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
+       SELECT 
+         p.IdPrenotazione,
+         c.NumeroCamera,
+         p.SoggiornoDal,
+         p.SoggiornoAl,
+         p.Tariffa,
+         p.Caparra,
+         sa.Descrizione AS ServizioAggiuntivo,
+         psa.Data AS DataServizio,
+         psa.Quantita,
+         psa.Prezzo,
+         (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
         FROM 
             Prenotazioni p
         JOIN 
@@ -86,4 +86,4 @@ namespace PROGETTO_S2.Services
         }
     }
 
-}
+    }
