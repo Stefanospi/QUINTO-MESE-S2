@@ -22,43 +22,56 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Managment
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item">
+                                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
+                                        </form>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
+                                        </form>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
+                                        </form>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <form id="ElencoPersone" asp-area="" asp-controller="Home" asp-action="ElencoPersone" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco clienti</button>
+                                        </form>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <form id="CreatePrenotazione" asp-area="" asp-controller="Home" asp-action="CreatePrenotazione" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci la prenotazione</button>
+                                        </form>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <form id="ElencoPrenotazioni" asp-area="" asp-controller="Home" asp-action="ElencoPrenotazioni" method="post" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco prenotazioni</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+@*                             <li class="nav-item">
                                 <form id="logoutForm" asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                    <button type="submit" class="">Logout</button>
                                 </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="ElencoPersone" asp-area="" asp-controller="Home" asp-action="ElencoPersone" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Elenco clienti</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="CreatePrenotazione" asp-area="" asp-controller="Home" asp-action="CreatePrenotazione" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Inserisci la prenotazione</button>
-                                </form>
-                            </li>
-                            <li class="nav-item">
-                                <form id="ElencoPrenotazioni" asp-area="" asp-controller="Home" asp-action="ElencoPrenotazioni" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Elenco prenotazioni</button>
-                                </form>
-                            </li>
+                            </li> *@
+                            <ul class="navbar-nav ms-lg-auto">
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-danger" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                            </ul>
                         }
                         else
                         {
