@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Newtonsoft.Json.Linq;
 using PROGETTO_S2.Models;
 using System.Data.SqlClient;
 
@@ -7,7 +8,7 @@ namespace PROGETTO_S2.Services
     public class CreateService : ICreationService
     {
         private readonly string _connectionString;
-        private const string CREATE_PERSONA_COMMAND= "" +
+        private const string CREATE_PERSONA_COMMAND = "" +
             "INSERT INTO Persone (Nome, Cognome, CF, Email, Telefono, Cellulare, Città, Provincia) " +
             "OUTPUT INSERTED.IdPersona " +
             "VALUES (@Nome, @Cognome, @CF, @Email, @Telefono, @Cellulare, @Città, @Provincia)";
@@ -17,7 +18,33 @@ namespace PROGETTO_S2.Services
             "VALUES (@DataPrenotazione,@NumProgressivo, @Anno, @SoggiornoDal,@SoggiornoAl, @Caparra, @Tariffa, @TipoPensione, @IdPersona, @IdCamera)";
         private const string GET_PERSONA_COMMAND = "SELECT * FROM Persone;";
         private const string GET_PRENOTAZIONE_COMMAND = "SELECT * FROM Prenotazioni;";
-        private const string GET_PRENOTAZIONE_BY_ID = "SELECT * FROM Prenotazioni WHERE IdPrenotazione = @IdPrenotazione";
+        private const string CHECKOUT_COMMAND = @"
+            SELECT 
+                p.IdPrenotazione,
+                c.NumeroCamera,
+                p.SoggiornoDal,
+                p.SoggiornoAl,
+                p.Tariffa,
+                p.Caparra,
+                sa.Descrizione AS ServizioAggiuntivo,
+                psa.Data AS DataServizio,
+                psa.Quantita,
+                psa.Prezzo,
+                (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
+            FROM 
+                Prenotazioni p
+            JOIN 
+                Camere c ON p.IdCamera = c.IdCamera
+            LEFT JOIN 
+                PrenotazioniServiziAgg psa ON p.IdPrenotazione = psa.IdPrenotazione
+            LEFT JOIN 
+                ServiziAgg sa ON psa.IdServizioAgg = sa.IdServizioAgg
+            WHERE 
+                p.IdPrenotazione = @IdPrenotazione
+            GROUP BY 
+                p.IdPrenotazione, c.NumeroCamera, p.SoggiornoDal, p.SoggiornoAl, p.Tariffa, p.Caparra, sa.Descrizione, psa.Data, psa.Quantita, psa.Prezzo
+            ORDER BY 
+                p.IdPrenotazione;";
         public CreateService(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Authdb");
@@ -136,7 +163,7 @@ namespace PROGETTO_S2.Services
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Errore durante il recupero della persona", ex);
             }
@@ -179,53 +206,12 @@ namespace PROGETTO_S2.Services
                 }
 
             }
-            catch(Exception ex)
-            {
-                   throw new Exception("Errore durante il recupero della prenotazione", ex);
-            }
-        }
-        public Prenotazione GetPrenotazioneById(int id)
-        {
-            try
-            {
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    connection.Open();
-                    using (var command = new SqlCommand(GET_PRENOTAZIONE_BY_ID, connection))
-                    {
-                        command.Parameters.AddWithValue("@IdPrenotazione", id);
-                        using (var reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                var prenotazione = new Prenotazione
-                                {
-                                    IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
-                                    DataPrenotazione = reader.GetDateTime(reader.GetOrdinal("DataPrenotazione")),
-                                    NumProgressivo = reader.GetInt32(reader.GetOrdinal("NumProgressivo")),
-                                    Anno = reader.GetInt32(reader.GetOrdinal("Anno")),
-                                    SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
-                                    SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
-                                    Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra")),
-                                    Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
-                                    TipoPensione = reader.GetString(reader.GetOrdinal("TipoPensione")),
-                                    IdPersona = reader.GetInt32(reader.GetOrdinal("IdPersona")),
-                                    IdCamera = reader.GetInt32(reader.GetOrdinal("IdCamera"))
-                                };
-                                return prenotazione;
-                            }
-                            else
-                            {
-                                throw new Exception("Prenotazione not found.");
-                            }
-                        }
-                    }
-                }
-            }
             catch (Exception ex)
             {
                 throw new Exception("Errore durante il recupero della prenotazione", ex);
             }
         }
+
+       
     }
 }

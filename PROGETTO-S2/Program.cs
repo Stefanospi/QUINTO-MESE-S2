@@ -17,7 +17,9 @@ builder.Services
 builder.Services
     .AddScoped<IAuthService, AuthService>()
     .AddScoped<IPrenotazioniService, PrenotazioneService>()
-    .AddScoped<ICreationService, CreateService>();
+    .AddScoped<ICreationService, CreateService>()
+    .AddScoped<IAggServizioService, AggServizioService>()
+    .AddScoped<ICheckoutService, CheckoutService>();
 
 var app = builder.Build();
 
@@ -41,5 +43,17 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+        name: "managment",
+        pattern: "Managment/{action=Index}/{id?}",
+        defaults: new { controller = "Managment" });
+});
+
 
 app.Run();

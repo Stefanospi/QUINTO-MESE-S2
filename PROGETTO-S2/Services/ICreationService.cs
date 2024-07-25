@@ -9,6 +9,5 @@ namespace PROGETTO_S2.Services
         public Prenotazione CreatePrenotazione(Prenotazione prenotazione);
         public List<Persona> GetPersona();
         public List<Prenotazione> GetPrenotazione();
-        public Prenotazione GetPrenotazioneById(int id);
     }
 }

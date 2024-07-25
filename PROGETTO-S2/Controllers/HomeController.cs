@@ -26,73 +26,12 @@ namespace PROGETTO_S2.Controllers
         {
             return View();
         }
-        //[HttpPost]
-        //public async Task<IActionResult> CercaPrenotazioni(string codiceFiscale)
-        //{
-        //    try
-        //    {
-        //        if (!string.IsNullOrEmpty(codiceFiscale))
-        //        {
-        //            var prenotazioni = await _prenotazioniService.GetPrenotazioni(codiceFiscale);
-        //            if (prenotazioni != null && prenotazioni.Any())
-        //            {
-        //                return View("CercaPrenotazioni", prenotazioni);
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Nessuna prenotazione trovata.");
-        //                return RedirectToAction("Index");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Inserisci un codice fiscale.");
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la ricerca della prenotazione. Riprova più tardi.");
-        //        _logger.LogError(ex, "Errore durante la ricerca della prenotazione.");
-        //        return RedirectToAction("Index");
-        //    }
-        //}
-        //[HttpPost]
-        //public IActionResult CercaPrenotazioniByTipo(string tipoPensione)
-        //{
-        //    try
-        //    {
-        //        if (!string.IsNullOrEmpty(tipoPensione))
-        //        {
-        //            var prenotazioni = _prenotazioniService.GetPrenotazioneByTipoPensione(tipoPensione);
-        //            if (prenotazioni != null && prenotazioni.Any())
-        //            {
-        //                return View("CercaPrenotazioniByTipo", prenotazioni);
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Nessuna prenotazione trovata.");
-        //                return RedirectToAction("Index");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Inserisci un tipo di pensione.");
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la ricerca della prenotazione. Riprova più tardi.");
-        //        _logger.LogError(ex, "Errore durante la ricerca della prenotazione.");
-        //        return RedirectToAction("Index");
-        //    }
-        //}
         public IActionResult CreatePersona()
         {
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePersona(Persona persona)
         {
             if (ModelState.IsValid)
@@ -107,12 +46,14 @@ namespace PROGETTO_S2.Controllers
             var persona = _creationService.GetPersona();
             return View(persona);
         }
+
         public IActionResult CreatePrenotazione()
         {
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePrenotazione(Prenotazione prenotazione)
         {
             if (ModelState.IsValid)
@@ -142,15 +83,6 @@ namespace PROGETTO_S2.Controllers
         public IActionResult ElencoPrenotazioni()
         {
             var prenotazione = _creationService.GetPrenotazione();
-            return View(prenotazione);
-        }
-        public IActionResult Details(int id)
-        {
-            var prenotazione =  _creationService.GetPrenotazioneById(id);
-            if (prenotazione == null)
-            {
-                return NotFound();
-            }
             return View(prenotazione);
         }
 

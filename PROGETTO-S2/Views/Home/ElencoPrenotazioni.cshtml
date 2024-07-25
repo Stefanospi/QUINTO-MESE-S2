@@ -35,7 +35,8 @@
                     <td>@prenotazione.IdPersona</td>
                     <td>@prenotazione.IdCamera</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@prenotazione.IdPrenotazione">Dettagli</a>
+                        <a class="btn btn-warning" asp-controller="Managment" asp-action="AddServizioAgg" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Aggiungi servizio aggiuntivo</a>
+                        <a class="btn btn-danger" asp-controller="Managment" asp-action="CheckoutPrenotazione" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Checkout</a>
                     </td>
                 </tr>
             }

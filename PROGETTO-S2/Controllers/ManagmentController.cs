@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PROGETTO_S2.Models;
 using PROGETTO_S2.Services;
 
 namespace PROGETTO_S2.Controllers
@@ -9,11 +10,15 @@ namespace PROGETTO_S2.Controllers
     {
         private readonly IPrenotazioniService _prenotazioniService;
         private readonly ILogger<ManagmentController> _logger;
+        private readonly IAggServizioService _aggServizioService;
+        private readonly ICheckoutService _checkoutService;
 
-        public ManagmentController(IPrenotazioniService prenotazioniService, ILogger<ManagmentController> logger)
+        public ManagmentController(IPrenotazioniService prenotazioniService, ILogger<ManagmentController> logger, IAggServizioService aggServizioService, ICheckoutService checkoutService)
         {
             _prenotazioniService = prenotazioniService;
             _logger = logger;
+            _aggServizioService = aggServizioService;
+            _checkoutService = checkoutService;
         }
 
         [HttpGet("CercaPrenotazioni")]
@@ -139,6 +144,42 @@ namespace PROGETTO_S2.Controllers
                 _logger.LogError(ex, "Errore durante il caricamento dei risultati di ricerca per il tipo pensione: {TipoPensione}", TipoPensione);
                 return StatusCode(500, "Errore interno del server. Si prega di riprovare più tardi.");
             }
+        }
+        [HttpGet("AddServizioAgg")]
+        public IActionResult AddServizioAgg(int idPrenotazione)
+        {
+            var model = new PrenotazioneServizioAgg
+            {
+                IdPrenotazione = idPrenotazione
+            };
+            return View(model);
+        }
+
+        [HttpPost("AddServizioAgg")]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddServizioAgg(int idPrenotazione, PrenotazioneServizioAgg prenotazioneServizioAgg)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _aggServizioService.AddServizioAgg(prenotazioneServizioAgg, idPrenotazione);
+                if (result != null)
+                {
+                    return RedirectToAction("CheckoutPrenotazione", new { idPrenotazione });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Errore durante l'inserimento del servizio aggiuntivo.");
+                }
+            }
+
+            return View(prenotazioneServizioAgg);
+        }
+
+        [HttpGet("CheckoutPrenotazione")]
+        public async Task<IActionResult> CheckoutPrenotazione(int idPrenotazione)
+        {
+            var prenotazione = await _checkoutService.GetPrenotazioneConImportoDaSaldare(idPrenotazione);
+            return View("CheckoutPrenotazioni", prenotazione);
         }
     }
 
