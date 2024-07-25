@@ -1,0 +1,11 @@
+﻿<h1>Ricerca Prenotazione per Tipo Pensione</h1>
+
+<form id="RicercaByTipo" action="/Managment/Managment/CercaPrenotazioniByTipo" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="TipoPensione">Tipo pensione:</label>
+        <input type="text" id="TipoPensione" name="TipoPensione" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Cerca Prenotazione</button>
+</form>
+

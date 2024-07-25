@@ -30,6 +30,16 @@
                                 </form>
                             </li>
                             <li class="nav-item">
+                                <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
                                 <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
                                 </form>

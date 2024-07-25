@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Cerca Prenotazioni";
+}
+
+<h2>Cerca Prenotazioni</h2>
+
+<form id="RicercaBYCF" action="/Managment/Managment/CercaPrenotazioni" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="CF">Codice Fiscale</label>
+        <input type="text" class="form-control" id="CF" name="CF" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Cerca</button>
+</form>

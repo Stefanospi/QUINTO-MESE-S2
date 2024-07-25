@@ -1,4 +1,63 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//RICERCA PER CODICE FISCALE
+$(document).ready(function () {
+    $('#RicercaBYCF').submit(function (event) {
+        event.preventDefault();
 
-// Write your JavaScript code.
+        var form = $(this);
+        var url = form.attr('action');
+        var data = form.serialize();
+
+        console.log('URL:', url);
+        console.log('Data:', data);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    alert('Nessuna prenotazione trovata.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore:', status, error);
+                console.error('Dettagli:', xhr.responseText);
+                alert('Si è verificato un errore. Per favore, riprova.');
+            }
+        });
+    });
+});
+
+//RICERCA PER TIPO DI PENSIONE
+$(document).ready(function () {
+    $('#RicercaByTipo').submit(function (event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var url = form.attr('action');
+        var data = form.serialize();
+
+        console.log('URL:', url);
+        console.log('Data:', data);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function (response) {
+                if (response.redirectUrl) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    alert('Nessuna prenotazione trovata.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Errore:', status, error);
+                console.error('Dettagli:', xhr.responseText);
+                alert('Si è verificato un errore. Per favore, riprova.');
+            }
+        });
+    });
+});
