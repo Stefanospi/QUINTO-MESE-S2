@@ -3,7 +3,7 @@
     public class CheckoutModel
     {
         public int IdPrenotazione { get; set; }
-        public string NumeroCamera { get; set; }
+        public int NumeroCamera { get; set; }
         public DateTime SoggiornoDal { get; set; }
         public DateTime SoggiornoAl { get; set; }
         public decimal Tariffa { get; set; }

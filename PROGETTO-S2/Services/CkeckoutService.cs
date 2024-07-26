@@ -61,7 +61,7 @@ namespace PROGETTO_S2.Services
                                 prenotazione = new CheckoutModel
                                 {
                                     IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
-                                    NumeroCamera = reader.GetString(reader.GetOrdinal("NumeroCamera")),
+                                    NumeroCamera = reader.GetInt32(reader.GetOrdinal("NumeroCamera")),  // Modificato da GetString a GetInt32
                                     SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
                                     SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
                                     Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
