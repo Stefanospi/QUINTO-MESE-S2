@@ -4,22 +4,27 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
 
-<div class="container">
+
+<div class="container border-personal p-4">
+    <h2 class="font-personal mb-4">Register</h2>
+    <hr />
     <form asp-action="Register" method="post">
         <div class="form-group">
-            <label asp-for="Username" class="control-label"></label>
+            <label asp-for="Username" class="control-label fst-italic">Inserisci Username:</label>
             <input asp-for="Username" class="form-control" />
             <span asp-validation-for="Username" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Password" class="control-label"></label>
+            <label asp-for="Password" class="control-label fst-italic">Inserisci Password:</label>
             <input asp-for="Password" type="password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Register</button>
+        <div class="form-group mt-2">
+            <button type="submit" class="btn btn-personal">Register</button>
+        </div>
+        <div class="form-group mt-2">
+            <a class="text-decoration-none btn btn-personal2"asp-action="Login">Già registrato? Clicca qui!</a>
         </div>
     </form>
 </div>
