@@ -1,11 +1,18 @@
-﻿<h1>Ricerca Prenotazione per Tipo Pensione</h1>
+﻿@{
+    ViewData["Title"] = "Cerca Prenotazioni By Tipo";
+}
 
-<form id="RicercaByTipo" action="/Managment/Managment/CercaPrenotazioniByTipo" method="post">
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <label for="TipoPensione">Tipo pensione:</label>
-        <input type="text" id="TipoPensione" name="TipoPensione" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Cerca Prenotazione</button>
-</form>
+
+<div class="container border-personal p-4">
+    <h2 class="font-personal">Ricerca Prenotazione per Tipo Pensione</h2>
+        <form id="RicercaByTipo" action="/Managment/Managment/CercaPrenotazioniByTipo" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-group mb-4">
+                <label class="mt-4" for="TipoPensione">Tipo pensione:</label>
+                <input type="text" id="TipoPensione" name="TipoPensione" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-personal">Cerca Prenotazione</button>
+        </form>
+</div>
+
 

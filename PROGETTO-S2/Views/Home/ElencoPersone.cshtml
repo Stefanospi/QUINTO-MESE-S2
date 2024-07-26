@@ -1,40 +1,45 @@
 ﻿@model IEnumerable<PROGETTO_S2.Models.Persona>
 
-<h2>Elenco persone:</h2>
+<h2 class="mb-4 font-personal">Elenco persone</h2>
+<hr />
 
 @if (Model != null && Model.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Cognome</th>
-                <th>Codice Fiscale</th>
-                <th>Email</th>
-                <th>Telefono</th>
-                <th>Cellulare</th>
-                <th>Città</th>
-                <th>Provincia</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var persona in Model)
-            {
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered border-personal">
+            <thead class="bg-personal">
                 <tr>
-                    <td>@persona.Nome</td>
-                    <td>@persona.Cognome</td>
-                    <td>@persona.CF</td>
-                    <td>@persona.Email</td>
-                    <td>@persona.Telefono</td>
-                    <td>@persona.Cellulare</td>
-                    <td>@persona.Città</td>
-                    <td>@persona.Provincia</td>
+                    <th class="fst-italic">Nome</th>
+                    <th class="fst-italic">Cognome</th>
+                    <th class="fst-italic">Codice Fiscale</th>
+                    <th class="fst-italic">Email</th>
+                    <th class="fst-italic">Telefono</th>
+                    <th class="fst-italic">Cellulare</th>
+                    <th class="fst-italic">Città</th>
+                    <th class="fst-italic">Provincia</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var persona in Model)
+                {
+                    <tr>
+                        <td class="fst-italic">@persona.Nome</td>
+                        <td class="fst-italic">@persona.Cognome</td>
+                        <td class="fst-italic">@persona.CF</td>
+                        <td class="fst-italic">@persona.Email</td>
+                        <td class="fst-italic">@persona.Telefono</td>
+                        <td class="fst-italic">@persona.Cellulare</td>
+                        <td class="fst-italic">@persona.Città</td>
+                        <td class="fst-italic">@persona.Provincia</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <p>Nessun cliente trovato.</p>
+    <div class="alert alert-warning font-personal" role="alert">
+        Nessun cliente trovato.
+    </div>
 }

@@ -4,73 +4,71 @@
     ViewData["Title"] = "CreatePrenotazione";
 }
 
-<h1>Inserisci la prenotazione</h1>
-
-<h4>Prenotazione</h4>
+<h2 class="font-personal mt-4">Inserisci la prenotazione</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreatePrenotazione">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DataPrenotazione" class="control-label"></label>
+                <label asp-for="DataPrenotazione" class="control-label fst-italic"> Data Prenotazione</label>
                 <input asp-for="DataPrenotazione" class="form-control" />
                 <span asp-validation-for="DataPrenotazione" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumProgressivo" class="control-label"></label>
+                <label asp-for="NumProgressivo" class="control-label fst-italic">Numero Progressivo:</label>
                 <input asp-for="NumProgressivo" class="form-control" />
                 <span asp-validation-for="NumProgressivo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Anno" class="control-label"></label>
+                <label asp-for="Anno" class="control-label fst-italic"></label>
                 <input asp-for="Anno" class="form-control" />
                 <span asp-validation-for="Anno" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SoggiornoDal" class="control-label"></label>
+                <label asp-for="SoggiornoDal" class="control-label fst-italic">Soggiorno Dal:</label>
                 <input asp-for="SoggiornoDal" class="form-control" />
                 <span asp-validation-for="SoggiornoDal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SoggiornoAl" class="control-label"></label>
+                <label asp-for="SoggiornoAl" class="control-label fst-italic">Soggiorno Al:</label>
                 <input asp-for="SoggiornoAl" class="form-control" />
                 <span asp-validation-for="SoggiornoAl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Caparra" class="control-label"></label>
+                <label asp-for="Caparra" class="control-label fst-italic"></label>
                 <input asp-for="Caparra" class="form-control" />
                 <span asp-validation-for="Caparra" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Tariffa" class="control-label"></label>
+                <label asp-for="Tariffa" class="control-label fst-italic"></label>
                 <input asp-for="Tariffa" class="form-control" />
                 <span asp-validation-for="Tariffa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TipoPensione" class="control-label"></label>
+                <label asp-for="TipoPensione" class="control-label fst-italic">Tipo Pensione</label>
                 <input asp-for="TipoPensione" class="form-control" />
                 <span asp-validation-for="TipoPensione" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdPersona" class="control-label"></label>
+                <label asp-for="IdPersona" class="control-label fst-italic">Identificativo Persona</label>
                 <input asp-for="IdPersona" class="form-control" />
                 <span asp-validation-for="IdPersona" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdCamera" class="control-label"></label>
+                <label asp-for="IdCamera" class="control-label fst-italic">Identificativo Camera</label>
                 <input asp-for="IdCamera" class="form-control" />
                 <span asp-validation-for="IdCamera" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mt-2">
+                <input type="submit" value="Inserisci" class="btn btn-personal" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-2">
+    <a class="btn btn-personal2" asp-action="Index">Torna alla Home</a>
 </div>
 
 @section Scripts {

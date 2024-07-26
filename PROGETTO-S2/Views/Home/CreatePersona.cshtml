@@ -4,63 +4,61 @@
     ViewData["Title"] = "CreatePersona";
 }
 
-<h1>CreatePersona</h1>
-
-<h4>Persona</h4>
+<h2 class="font-personal mt-4">Inserisci dati cliente</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreatePersona">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
+                <label asp-for="Nome" class="control-label fst-italic"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cognome" class="control-label"></label>
+                <label asp-for="Cognome" class="control-label fst-italic"></label>
                 <input asp-for="Cognome" class="form-control" />
                 <span asp-validation-for="Cognome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CF" class="control-label"></label>
+                <label asp-for="CF" class="control-label fst-italic"></label>
                 <input asp-for="CF" class="form-control" />
                 <span asp-validation-for="CF" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label fst-italic"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
+                <label asp-for="Telefono" class="control-label fst-italic"></label>
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cellulare" class="control-label"></label>
+                <label asp-for="Cellulare" class="control-label fst-italic"></label>
                 <input asp-for="Cellulare" class="form-control" />
                 <span asp-validation-for="Cellulare" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Città" class="control-label"></label>
+                <label asp-for="Città" class="control-label fst-italic"></label>
                 <input asp-for="Città" class="form-control" />
                 <span asp-validation-for="Città" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Provincia" class="control-label"></label>
+                <label asp-for="Provincia" class="control-label fst-italic"></label>
                 <input asp-for="Provincia" class="form-control" />
                 <span asp-validation-for="Provincia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Inserisci" class="btn btn-personal" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-2">
+    <a class="btn btn-personal2" asp-action="Index">Torna alla Home</a>
 </div>
 
 @section Scripts {

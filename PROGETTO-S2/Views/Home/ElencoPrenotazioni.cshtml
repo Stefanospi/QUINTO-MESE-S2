@@ -1,51 +1,56 @@
 ﻿@model IEnumerable<PROGETTO_S2.Models.Prenotazione>
 
-<h2>Elenco prenotazioni:</h2>
+<h2 class="font-personal my-4">Elenco prenotazioni:</h2>
+<hr />
 
 @if (Model != null && Model.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Data Prenotazione</th>
-                <th>Numero Progressivo</th>
-                <th>Anno</th>
-                <th>Soggiorno Dal</th>
-                <th>Soggiorno Al</th>
-                <th>Caparra</th>
-                <th>Tariffa</th>
-                <th>Tipo Pensione</th>
-                <th>Identificativo cliente</th>
-                <th>Identificativo camera</th>
-                <th>Azioni</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var prenotazione in Model)
-            {
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered border-personal">
+            <thead class="bg-personal">
                 <tr>
-                    <td>@prenotazione.DataPrenotazione</td>
-                    <td>@prenotazione.NumProgressivo</td>
-                    <td>@prenotazione.Anno</td>
-                    <td>@prenotazione.SoggiornoDal</td>
-                    <td>@prenotazione.SoggiornoAl</td>
-                    <td>@prenotazione.Caparra</td>
-                    <td>@prenotazione.Tariffa</td>
-                    <td>@prenotazione.TipoPensione</td>
-                    <td>@prenotazione.IdPersona</td>
-                    <td>@prenotazione.IdCamera</td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a class="btn btn-personal" asp-controller="Managment" asp-action="AddServizioAgg" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Agg.Servizio</a>
-                            <a class="btn btn-personal2" asp-controller="Managment" asp-action="CheckoutPrenotazioni" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Checkout</a>
-                        </div>
-                    </td>
+                    <th>Data Prenotazione</th>
+                    <th>Numero Progressivo</th>
+                    <th>Anno</th>
+                    <th>Soggiorno Dal</th>
+                    <th>Soggiorno Al</th>
+                    <th>Caparra</th>
+                    <th>Tariffa</th>
+                    <th>Tipo Pensione</th>
+                    <th>Identificativo cliente</th>
+                    <th>Identificativo camera</th>
+                    <th>Azioni</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var prenotazione in Model)
+                {
+                    <tr>
+                        <td>@prenotazione.DataPrenotazione.ToShortDateString()</td>
+                        <td>@prenotazione.NumProgressivo</td>
+                        <td>@prenotazione.Anno</td>
+                        <td>@prenotazione.SoggiornoDal.ToShortDateString()</td>
+                        <td>@prenotazione.SoggiornoAl.ToShortDateString()</td>
+                        <td>@prenotazione.Caparra</td>
+                        <td>@prenotazione.Tariffa</td>
+                        <td>@prenotazione.TipoPensione</td>
+                        <td>@prenotazione.IdPersona</td>
+                        <td>@prenotazione.IdCamera</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-personal" asp-controller="Managment" asp-action="AddServizioAgg" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Agg. Servizio</a>
+                                <a class="btn btn-personal2" asp-controller="Managment" asp-action="CheckoutPrenotazioni" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Checkout</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <p>Nessuna prenotazione trovata.</p>
+    <div class="alert alert-warning font-personal" role="alert">
+        Nessuna prenotazione trovata.
+    </div>
 }
