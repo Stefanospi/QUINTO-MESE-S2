@@ -1,36 +1,48 @@
 ﻿@model PROGETTO_S2.Models.CheckoutModel
 
-<h2>Checkout Prenotazioni</h2>
+@{
+    ViewData["Title"] = "Checkout";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Numero Camera</th>
-            <th>Soggiorno Dal</th>
-            <th>Soggiorno Al</th>
-            <th>Tariffa</th>
-            <th>Caparra</th>
-            <th>Servizio Aggiuntivo</th>
-            <th>Data Servizio</th>
-            <th>Quantità</th>
-            <th>Prezzo</th>
-            <th>Importo Da Saldare</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.NumeroCamera</td>
-            <td>@Model.SoggiornoDal.ToString("dd/MM/yyyy")</td>
-            <td>@Model.SoggiornoAl.ToString("dd/MM/yyyy")</td>
-            <td>@Model.Tariffa.ToString("C")</td>
-            <td>@Model.Caparra.ToString("C")</td>
-            <td>@Model.ServizioAggiuntivo</td>
-            <td>@Model.DataServizio?.ToString("dd/MM/yyyy")</td>
-            <td>@Model.Quantita</td>
-            <td>@Model.Prezzo?.ToString("C")</td>
-            <td>@Model.ImportoDaSaldare.ToString("C")</td>
-        </tr>
-    </tbody>
-</table>
+<h2>Checkout Details</h2>
 
-<a href="@Url.Action("Index", "Home")" class="btn btn-primary">Torna alla Home</a>
+<div>
+    <h3>Dettagli Prenotazione</h3>
+    <p><strong>ID Prenotazione</strong> @Model.IdPrenotazione</p>
+    <p><strong>Numero Camera</strong> @Model.NumeroCamera</p>
+    <p><strong>Soggiorno Dal:</strong> @Model.SoggiornoDal.ToShortDateString()</p>
+    <p><strong>Soggiorno Al:</strong> @Model.SoggiornoAl.ToShortDateString()</p>
+    <p><strong>Tariffa</strong> @Model.Tariffa.ToString("C")</p>
+    <p><strong>Caparra</strong> @Model.Caparra.ToString("C")</p>
+    <p><strong>Importo da saldare:</strong> @Model.ImportoDaSaldare.ToString("C")</p>
+
+    <h3>Servizi Aggiuntivi</h3>
+    @if (Model.ServiziAgg != null && Model.ServiziAgg.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Descrizione</th>
+                    <th>Data</th>
+                    <th>Quantità</th>
+                    <th>Prezzo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var servizio in Model.ServiziAgg)
+                {
+                    <tr>
+                        <td>@servizio.ServizioAgg</td>
+                        <td>@servizio.DataServizio?.ToShortDateString()</td>
+                        <td>@servizio.Quantita</td>
+                        <td>@servizio.Prezzo?.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Non è stato trovato nessun servizio aggiuntivo.</p>
+    }
+</div>

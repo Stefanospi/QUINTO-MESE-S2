@@ -10,7 +10,7 @@
 </head>
 <body>
     <header class="p-personal">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="/img/hotel-service-high-resolution-logo-transparent.png" alt="Logo" style="width:200px; height:40px" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,51 +22,9 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="dropdown ms-lg-auto">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Managment
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item">
-                                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
-                                        </form>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
-                                        </form>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
-                                        </form>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <form id="ElencoPersone" asp-area="" asp-controller="Home" asp-action="ElencoPersone" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco clienti</button>
-                                        </form>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <form id="CreatePrenotazione" asp-area="" asp-controller="Home" asp-action="CreatePrenotazione" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci la prenotazione</button>
-                                        </form>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <form id="ElencoPrenotazioni" asp-area="" asp-controller="Home" asp-action="ElencoPrenotazioni" method="post" class="form-inline">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco prenotazioni</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
-@*                             <li class="nav-item">
-                                <form id="logoutForm" asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
-                                    <button type="submit" class="">Logout</button>
-                                </form>
-                            </li> *@
-                            <ul class="navbar-nav ms-lg-2">
+                            <ul class="navbar-nav ms-lg-auto">
                                 <li class="nav-item">
-                                    <a class="btn btn-outline-danger" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                    <a class="btn btn-outline-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                                 </li>
                             </ul>
                         }
@@ -91,12 +49,18 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - PROGETTO_S2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <div class="container-fluid bg-personal">
+        <footer class="py-3">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li><a asp-action="Index" class="px-2 link-personal fst-italic">Home</a></li>
+                <li><a href="#" class="px-2 link-personal fst-italic">Features</a></li>
+                <li><a href="#" class="px-2 link-personal fst-italic">Pricing</a></li>
+                <li><a href="#" class="px-2 link-personal fst-italic">FAQs</a></li>
+                <li><a href="#" class="px-2 link-personal fst-italic">About</a></li>
+            </ul>
+            <p class="text-center text-body-secondary text-light">© 2024 Stefano, Inc</p>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

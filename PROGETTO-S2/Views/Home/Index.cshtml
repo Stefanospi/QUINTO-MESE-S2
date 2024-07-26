@@ -2,26 +2,73 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="p-5 mb-4 bg-body-tertiary rounded-3">
+<div class="p-5 mb-4 bg-body-tertiary border rounded-3 mt-2">
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold fst-italic">Benvenuto!</h1>
-        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
-        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        <p class="col-md-8 fs-4">Scoprite la soluzione completa per la gestione del vostro hotel con il nostro sito gestionale all'avanguardia. Progettato per ottimizzare ogni aspetto dell'operatività alberghiera, il nostro sistema offre una serie di funzionalità intuitive e avanzate che semplificano la gestione quotidiana e migliorano l'esperienza degli ospiti.</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="dropdown ms-lg-auto">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Managment
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form id="ElencoPersone" asp-area="" asp-controller="Home" asp-action="ElencoPersone" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco clienti</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form id="CreatePrenotazione" asp-area="" asp-controller="Home" asp-action="CreatePrenotazione" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci la prenotazione</button>
+                        </form>
+                    </li>
+                    <li class="dropdown-item">
+                        <form id="ElencoPrenotazioni" asp-area="" asp-controller="Home" asp-action="ElencoPrenotazioni" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco prenotazioni</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        }
     </div>
 </div>
-<div class="row align-items-md-stretch">
-    <div class="col-md-6">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
-            <h2>Change the background</h2>
-            <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-            <button class="btn btn-outline-light" type="button">Example button</button>
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Ecco alcune funzioni:</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 justify-content-evenly">
+        <div class="col d-flex align-items-start border rounded-3 p-4">
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Elenco Clienti</h3>
+                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                <a asp-action="ElencoPersone" class="btn btn-primary">
+                    Elenco Clienti
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-            <h2>Add borders</h2>
-            <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-            <button class="btn btn-outline-secondary" type="button">Example button</button>
+
+        <div class="col d-flex align-items-start border rounded-3 p-4">
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Elenco Prenotazioni</h3>
+                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                <a asp-action="ElencoPrenotazioni" class="btn btn-primary">
+                    Elenco Prenotazioni
+                </a>
+            </div>
         </div>
     </div>
 </div>

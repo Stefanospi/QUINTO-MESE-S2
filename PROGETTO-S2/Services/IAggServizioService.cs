@@ -5,5 +5,6 @@ namespace PROGETTO_S2.Services
     public interface IAggServizioService
     {
         public PrenotazioneServizioAgg AddServizioAgg(PrenotazioneServizioAgg prenotazioneServizioAgg, int IdPrenotazione);
+        public List<ServizioAgg> GetServiziAgg();
     }
 }

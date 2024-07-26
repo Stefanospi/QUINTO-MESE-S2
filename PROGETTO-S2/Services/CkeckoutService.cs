@@ -1,4 +1,5 @@
-﻿using PROGETTO_S2.Models;
+﻿
+using PROGETTO_S2.Models;
 using System.Data.SqlClient;
 
 namespace PROGETTO_S2.Services
@@ -9,17 +10,17 @@ namespace PROGETTO_S2.Services
         private readonly ILogger<CheckoutService> _logger;
         private const string GET_PRENOTAZIONE_CON_IMPORTO_DA_SALDARE_COMMAND = @"
        SELECT 
-         p.IdPrenotazione,
-         c.NumeroCamera,
-         p.SoggiornoDal,
-         p.SoggiornoAl,
-         p.Tariffa,
-         p.Caparra,
-         sa.Descrizione AS ServizioAggiuntivo,
-         psa.Data AS DataServizio,
-         psa.Quantita,
-         psa.Prezzo,
-         (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
+            p.IdPrenotazione,
+            c.NumeroCamera,
+            p.SoggiornoDal,
+            p.SoggiornoAl,
+            p.Tariffa,
+            p.Caparra,
+            sa.Descrizione AS ServizioAggiuntivo,
+            psa.Data AS DataServizio,
+            psa.Quantita,
+            psa.Prezzo,
+            (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
         FROM 
             Prenotazioni p
         JOIN 
@@ -31,7 +32,8 @@ namespace PROGETTO_S2.Services
         WHERE 
             p.IdPrenotazione = @IdPrenotazione
         GROUP BY 
-            p.IdPrenotazione, c.NumeroCamera, p.SoggiornoDal, p.SoggiornoAl, p.Tariffa, p.Caparra, sa.Descrizione, psa.Data, psa.Quantita, psa.Prezzo
+            p.IdPrenotazione, c.NumeroCamera, p.SoggiornoDal, p.SoggiornoAl, 
+            p.Tariffa, p.Caparra, sa.Descrizione, psa.Data, psa.Quantita, psa.Prezzo
         ORDER BY 
             p.IdPrenotazione;";
 
@@ -43,46 +45,70 @@ namespace PROGETTO_S2.Services
 
         public async Task<CheckoutModel> GetPrenotazioneConImportoDaSaldare(int idPrenotazione)
         {
-            CheckoutModel prenotazione = null;
+            var prenotazione = new CheckoutModel();
 
             try
             {
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    await connection.OpenAsync();
-                    using (var command = new SqlCommand(GET_PRENOTAZIONE_CON_IMPORTO_DA_SALDARE_COMMAND, connection))
+                await ExecuteReaderAsync(GET_PRENOTAZIONE_CON_IMPORTO_DA_SALDARE_COMMAND,
+                    command => command.Parameters.AddWithValue("@IdPrenotazione", idPrenotazione),
+                    async reader =>
                     {
-                        command.Parameters.AddWithValue("@IdPrenotazione", idPrenotazione);
-
-                        using (var reader = await command.ExecuteReaderAsync())
+                        if (!await reader.ReadAsync())
                         {
-                            if (await reader.ReadAsync())
-                            {
-                                prenotazione = new CheckoutModel
-                                {
-                                    IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione")),
-                                    NumeroCamera = reader.GetInt32(reader.GetOrdinal("NumeroCamera")),  // Modificato da GetString a GetInt32
-                                    SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal")),
-                                    SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl")),
-                                    Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa")),
-                                    Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra")),
-                                    ServizioAggiuntivo = reader.IsDBNull(reader.GetOrdinal("ServizioAggiuntivo")) ? null : reader.GetString(reader.GetOrdinal("ServizioAggiuntivo")),
-                                    DataServizio = reader.IsDBNull(reader.GetOrdinal("DataServizio")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("DataServizio")),
-                                    Quantita = reader.IsDBNull(reader.GetOrdinal("Quantita")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Quantita")),
-                                    Prezzo = reader.IsDBNull(reader.GetOrdinal("Prezzo")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("Prezzo")),
-                                    ImportoDaSaldare = reader.GetDecimal(reader.GetOrdinal("ImportoDaSaldare"))
-                                };
-                            }
+                            return null;
                         }
-                    }
+
+                        prenotazione.IdPrenotazione = reader.GetInt32(reader.GetOrdinal("IdPrenotazione"));
+                        prenotazione.NumeroCamera = reader.GetInt32(reader.GetOrdinal("NumeroCamera"));
+                        prenotazione.SoggiornoDal = reader.GetDateTime(reader.GetOrdinal("SoggiornoDal"));
+                        prenotazione.SoggiornoAl = reader.GetDateTime(reader.GetOrdinal("SoggiornoAl"));
+                        prenotazione.Tariffa = reader.GetDecimal(reader.GetOrdinal("Tariffa"));
+                        prenotazione.Caparra = reader.GetDecimal(reader.GetOrdinal("Caparra"));
+                        prenotazione.ImportoDaSaldare = reader.GetDecimal(reader.GetOrdinal("ImportoDaSaldare"));
+
+                        if (!reader.IsDBNull(reader.GetOrdinal("ServizioAggiuntivo")))
+                        {
+                            var servizio = new ServizioAggViewModel
+                            {
+                                ServizioAgg = reader.GetString(reader.GetOrdinal("ServizioAggiuntivo")),
+                                DataServizio = reader.IsDBNull(reader.GetOrdinal("DataServizio")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("DataServizio")),
+                                Quantita = reader.IsDBNull(reader.GetOrdinal("Quantita")) ? (int?)null : reader.GetInt32(reader.GetOrdinal("Quantita")),
+                                Prezzo = reader.IsDBNull(reader.GetOrdinal("Prezzo")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("Prezzo"))
+                            };
+
+                            prenotazione.ServiziAgg.Add(servizio);
+                        }
+
+                        return prenotazione;
+                    });
+
+                if (prenotazione.ServiziAgg.Count == 0)
+                {
+                    _logger.LogInformation("No additional services found for reservation ID {idPrenotazione}", idPrenotazione);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Errore durante il recupero della prenotazione con importo da saldare per ID {IdPrenotazione}", idPrenotazione);
+                _logger.LogError(ex, "Error retrieving reservation with outstanding amount for ID {idPrenotazione}", idPrenotazione);
             }
 
             return prenotazione;
+        }
+
+        private async Task ExecuteReaderAsync(string commandText, Action<SqlCommand> parameterize, Func<SqlDataReader, Task<CheckoutModel>> handleReader)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(commandText, connection))
+                {
+                    parameterize(command);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        await handleReader(reader);
+                    }
+                }
+            }
         }
     }
 

@@ -148,6 +148,8 @@ namespace PROGETTO_S2.Controllers
         [HttpGet("AddServizioAgg")]
         public IActionResult AddServizioAgg(int idPrenotazione)
         {
+            ViewBag.serviziAgg = _aggServizioService.GetServiziAgg();
+
             var model = new PrenotazioneServizioAgg
             {
                 IdPrenotazione = idPrenotazione
@@ -175,19 +177,20 @@ namespace PROGETTO_S2.Controllers
             return View(prenotazioneServizioAgg);
         }
 
-        [HttpGet("CheckoutPrenotazione")]
-        public async Task<IActionResult> CheckoutPrenotazione(int idPrenotazione)
+        [HttpGet("CheckoutPrenotazioni")]
+        public async Task<IActionResult> CheckoutPrenotazioni(int idPrenotazione)
         {
+            // Retrieve the reservation and associated services
             var prenotazione = await _checkoutService.GetPrenotazioneConImportoDaSaldare(idPrenotazione);
 
             if (prenotazione == null)
             {
-                // Handle the case where prenotazione is null
-                // Return a view with a message or redirect to an error page
+                // Log a warning if the reservation is not found
                 _logger.LogWarning("No prenotazione found for ID {IdPrenotazione}", idPrenotazione);
                 return NotFound("Prenotazione not found.");
             }
 
+            // Return the "Checkout" view with the prenotazione model
             return View("CheckoutPrenotazioni", prenotazione);
         }
     }

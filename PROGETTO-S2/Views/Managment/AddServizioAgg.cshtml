@@ -1,4 +1,7 @@
 ﻿@model PROGETTO_S2.Models.PrenotazioneServizioAgg
+@{
+    var serviziAgg = ViewBag.serviziAgg as List<ServizioAgg>;
+}
 
 <h2>Aggiungi Servizio Aggiuntivo</h2>
 
@@ -6,11 +9,12 @@
     <div class="form-group">
         <label asp-for="IdServizioAgg" class="control-label">Servizio Aggiuntivo</label>
         <select asp-for="IdServizioAgg" class="form-control">
-            <option value="1">WI-FI gratuito</option>
-            <option value="2">Colazione inclusa</option>
-            <option value="3">Piscina</option>
-            <option value="4">Servizio in camera</option>
-            <option value="5">Parcheggio gratuito</option>
+            <option value="">Seleziona un servizio</option>
+            @foreach (var s in serviziAgg)
+            {
+                <option value="@s.IdServizioAgg">@s.Descrizione</option>
+            }
+
         </select>
         <span asp-validation-for="IdServizioAgg" class="text-danger"></span>
     </div>

@@ -19,16 +19,30 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    height: 100%;
     font-family: "Poppins",sans-serif;
+    background-color: #FFF7EC;
 }
 header{
     box-shadow:0 .5rem 1rem rgba(0,0,0,.15);
 }
-.p-personal{
-    padding-top:.3rem;
-    padding-bottom:.3rem;
+.p-personal {
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    background-color: #DABE99;
 }
-.navbar{
-    margin:0 !important;
+.navbar {
+    margin: 0 !important;
+
+}
+
+.link-personal{
+    text-decoration:none;
+    color:white;
+}
+    .link-personal:hover {
+        color: #cccccc; /* Un bianco più scuro */
+    }
+.bg-personal {
+    background-color: #9E8A6F;
 }

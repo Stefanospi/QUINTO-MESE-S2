@@ -10,6 +10,7 @@ namespace PROGETTO_S2.Services
         private const string AGG_SERVIZIO_COMMAND = "" +
             "INSERT INTO PrenotazioniServiziAgg(IdPrenotazione, IdServizioAgg, Data, Quantita, Prezzo) " +
             "VALUES (@IdPrenotazione, @IdServizioAgg, @Data, @Quantita, @Prezzo);";
+        private const string GET_ALL_SERVIZIAGG_COMMAND = "SELECT IdServizioAgg,Descrizione FROM ServiziAgg";
 
         public AggServizioService(IConfiguration configuration, ILogger<AggServizioService> logger)
         {
@@ -51,6 +52,30 @@ namespace PROGETTO_S2.Services
                 _logger.LogError(ex, "Errore durante l'inserimento del servizio aggiuntivo per la prenotazione {IdPrenotazione}", IdPrenotazione);
                 return null;
             }
+        }
+
+        public List<ServizioAgg> GetServiziAgg()
+        {
+            List<ServizioAgg> servizi = new List<ServizioAgg>();
+            try
+            {
+                using var conn = new SqlConnection(_connectionString);
+                conn.Open();
+                using var cmd = new SqlCommand(GET_ALL_SERVIZIAGG_COMMAND, conn);
+                using var r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    var s = new ServizioAgg
+                    {
+                        IdServizioAgg = r.GetInt32(0),
+                        Descrizione = r.GetString(1),
+                    };
+                    servizi.Add(s);
+                }
+                return servizi;
+            }
+            catch (Exception ex) { }
+            return null;
         }
     }
 }
