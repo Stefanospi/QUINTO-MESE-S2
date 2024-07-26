@@ -35,8 +35,10 @@
                     <td>@prenotazione.IdPersona</td>
                     <td>@prenotazione.IdCamera</td>
                     <td>
-                        <a class="btn btn-warning" asp-controller="Managment" asp-action="AddServizioAgg" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Aggiungi servizio aggiuntivo</a>
-                        <a class="btn btn-danger" asp-controller="Managment" asp-action="CheckoutPrenotazioni" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Checkout</a>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-personal" asp-controller="Managment" asp-action="AddServizioAgg" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Agg.Servizio</a>
+                            <a class="btn btn-personal2" asp-controller="Managment" asp-action="CheckoutPrenotazioni" asp-route-idPrenotazione="@prenotazione.IdPrenotazione">Checkout</a>
+                        </div>
                     </td>
                 </tr>
             }

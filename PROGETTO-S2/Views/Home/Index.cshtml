@@ -2,45 +2,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="p-5 mb-4 bg-body-tertiary border rounded-3 mt-2">
+<div class="p-5 mb-4 bg-body-tertiary border-personal rounded-3 mt-2">
     <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold fst-italic">Benvenuto!</h1>
-        <p class="col-md-8 fs-4">Scoprite la soluzione completa per la gestione del vostro hotel con il nostro sito gestionale all'avanguardia. Progettato per ottimizzare ogni aspetto dell'operatività alberghiera, il nostro sistema offre una serie di funzionalità intuitive e avanzate che semplificano la gestione quotidiana e migliorano l'esperienza degli ospiti.</p>
+        <h1 class="display-5 fw-bolder font-personal">Benvenuto!</h1>
+        <p class="col-md-8 fs-4 my-3">Scoprite la soluzione completa per la gestione del vostro hotel con il nostro sito gestionale all'avanguardia. Progettato per ottimizzare ogni aspetto dell'operatività alberghiera, il nostro sistema offre una serie di funzionalità intuitive e avanzate che semplificano la gestione quotidiana e migliorano l'esperienza degli ospiti.</p>
         @if (User.Identity.IsAuthenticated)
         {
             <div class="dropdown ms-lg-auto">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-personal dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Managment
                 </button>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item">
+                <ul class="dropdown-menu bg-personal2">
+                    <li class="dropdown-item-personal">
                         <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioni" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni con codice fiscale</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Cerca prenotazioni con codice fiscale</button>
                         </form>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item-personal">
                         <form id="logoutForm" asp-area="" asp-controller="Managment" asp-action="CercaPrenotazioniByTipo" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Cerca prenotazioni per tipo pensione</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Cerca prenotazioni per tipo pensione</button>
                         </form>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item-personal">
                         <form id="CreatePersona" asp-area="" asp-controller="Home" asp-action="CreatePersona" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci i dati del cliente</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Inserisci i dati del cliente</button>
                         </form>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item-personal">
                         <form id="ElencoPersone" asp-area="" asp-controller="Home" asp-action="ElencoPersone" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco clienti</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Elenco clienti</button>
                         </form>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item-personal">
                         <form id="CreatePrenotazione" asp-area="" asp-controller="Home" asp-action="CreatePrenotazione" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Inserisci la prenotazione</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Inserisci la prenotazione</button>
                         </form>
                     </li>
-                    <li class="dropdown-item">
+                    <li class="dropdown-item-personal">
                         <form id="ElencoPrenotazioni" asp-area="" asp-controller="Home" asp-action="ElencoPrenotazioni" method="post" class="form-inline">
-                            <button type="submit" class="nav-link btn btn-link text-dark">Elenco prenotazioni</button>
+                            <button type="submit" class="nav-link btn btn-link text-light">Elenco prenotazioni</button>
                         </form>
                     </li>
                 </ul>
@@ -51,21 +51,21 @@
 <div class="container px-4 py-5" id="hanging-icons">
     <h2 class="pb-2 border-bottom">Ecco alcune funzioni:</h2>
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3 justify-content-evenly">
-        <div class="col d-flex align-items-start border rounded-3 p-4">
+        <div class="col d-flex align-items-start border-personal rounded-3 p-4">
             <div>
                 <h3 class="fs-2 text-body-emphasis">Elenco Clienti</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                <a asp-action="ElencoPersone" class="btn btn-primary">
+                <p>Qui troverai una sezione dedicata a tutti i clienti che hanno effettuato una prenotazione.</p>
+                <a asp-action="ElencoPersone" class="btn btn-personal">
                     Elenco Clienti
                 </a>
             </div>
         </div>
 
-        <div class="col d-flex align-items-start border rounded-3 p-4">
+        <div class="col d-flex align-items-start border-personal rounded-3 p-4">
             <div>
                 <h3 class="fs-2 text-body-emphasis">Elenco Prenotazioni</h3>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                <a asp-action="ElencoPrenotazioni" class="btn btn-primary">
+                <p>Qui troverai una sezione dedicata a tutte le prenotazioni effettuate dai clienti.</p>
+                <a asp-action="ElencoPrenotazioni" class="btn btn-personal">
                     Elenco Prenotazioni
                 </a>
             </div>

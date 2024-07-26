@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+BE+WAL:wght@100..400&family=Playwrite+CU:wght@100..400&display=swap');
 html {
   font-size: 14px;
 }
@@ -13,13 +14,17 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-    height: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
     font-family: "Poppins",sans-serif;
     background-color: #FFF7EC;
 }
@@ -46,3 +51,40 @@ header{
 .bg-personal {
     background-color: #9E8A6F;
 }
+
+.border-personal {
+    border: 1px solid #BAA182;
+}
+.font-personal {
+    font-family: "Playwrite BE WAL", cursive;
+}
+
+.btn-personal {
+    background-color:#BAA182;
+    color:white;
+}
+.btn-personal2 {
+    background-color: #FAC074;
+    color: white;
+}
+
+.bg-personal2 {
+    background-color: #BAA182;
+}
+.dropdown-item-personal {
+    display: block;
+    width: 100%;
+    padding: .25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+    .dropdown-item-personal:hover {
+        background-color: #FAC074;
+    }
