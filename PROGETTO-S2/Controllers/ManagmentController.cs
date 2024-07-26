@@ -180,18 +180,15 @@ namespace PROGETTO_S2.Controllers
         [HttpGet("CheckoutPrenotazioni")]
         public async Task<IActionResult> CheckoutPrenotazioni(int idPrenotazione)
         {
-            // Retrieve the reservation and associated services
             var prenotazione = await _checkoutService.GetPrenotazioneConImportoDaSaldare(idPrenotazione);
 
             if (prenotazione == null)
             {
-                // Log a warning if the reservation is not found
                 _logger.LogWarning("No prenotazione found for ID {IdPrenotazione}", idPrenotazione);
                 return NotFound("Prenotazione not found.");
             }
 
-            // Return the "Checkout" view with the prenotazione model
-            return View("CheckoutPrenotazioni", prenotazione);
+            return View(prenotazione);
         }
     }
 
