@@ -1,0 +1,68 @@
+﻿CREATE TABLE [dbo].[Camere] (
+    [IdCamera]     INT           IDENTITY (1, 1) NOT NULL,
+    [NumeroCamera] INT           NOT NULL,
+    [Descrizione]  VARCHAR (255) NULL,
+    [Tipologia]    VARCHAR (20)  NULL,
+    PRIMARY KEY CLUSTERED ([IdCamera] ASC),
+    UNIQUE NONCLUSTERED ([NumeroCamera] ASC),
+    CHECK ([Tipologia]='doppia' OR [Tipologia]='singola')
+);
+
+CREATE TABLE [dbo].[Persone] (
+    [IdPersona] INT           IDENTITY (1, 1) NOT NULL,
+    [Nome]      VARCHAR (50)  NOT NULL,
+    [Cognome]   VARCHAR (50)  NOT NULL,
+    [CF]        VARCHAR (16)  NOT NULL,
+    [Email]     VARCHAR (100) NULL,
+    [Telefono]  VARCHAR (20)  NULL,
+    [Cellulare] VARCHAR (20)  NULL,
+    [Città]     VARCHAR (50)  NULL,
+    [Provincia] CHAR (2)      NULL,
+    PRIMARY KEY CLUSTERED ([IdPersona] ASC),
+    UNIQUE NONCLUSTERED ([CF] ASC)
+);
+
+CREATE TABLE [dbo].[Prenotazioni] (
+    [IdPrenotazione]   INT             IDENTITY (1, 1) NOT NULL,
+    [DataPrenotazione] DATETIME2 (7)   NOT NULL,
+    [NumProgressivo]   INT             NOT NULL,
+    [Anno]             INT             NOT NULL,
+    [SoggiornoDal]     DATETIME2 (7)   NOT NULL,
+    [SoggiornoAl]      DATETIME2 (7)   NOT NULL,
+    [Caparra]          DECIMAL (18, 2) NOT NULL,
+    [Tariffa]          DECIMAL (18, 2) NOT NULL,
+    [TipoPensione]     VARCHAR (50)    NULL,
+    [IdPersona]        INT             NOT NULL,
+    [IdCamera]         INT             NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdPrenotazione] ASC),
+    FOREIGN KEY ([IdPersona]) REFERENCES [dbo].[Persone] ([IdPersona]),
+    FOREIGN KEY ([IdCamera]) REFERENCES [dbo].[Camere] ([IdCamera]),
+    CHECK ([TipoPensione]='Prima Colazione' OR [TipoPensione]='Pensione Completa' OR [TipoPensione]='Mezza Pensione')
+);
+
+CREATE TABLE [dbo].[PrenotazioniServiziAgg] (
+    [IdPrenotazioneServizioAgg] INT             IDENTITY (1, 1) NOT NULL,
+    [IdPrenotazione]            INT             NOT NULL,
+    [IdServizioAgg]             INT             NOT NULL,
+    [Data]                      DATETIME2 (7)   NOT NULL,
+    [Quantita]                  INT             NOT NULL,
+    [Prezzo]                    DECIMAL (18, 2) NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdPrenotazioneServizioAgg] ASC),
+    FOREIGN KEY ([IdPrenotazione]) REFERENCES [dbo].[Prenotazioni] ([IdPrenotazione]),
+    FOREIGN KEY ([IdServizioAgg]) REFERENCES [dbo].[ServiziAgg] ([IdServizioAgg])
+);
+
+CREATE TABLE [dbo].[ServiziAgg] (
+    [IdServizioAgg] INT           IDENTITY (1, 1) NOT NULL,
+    [Descrizione]   NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdServizioAgg] ASC),
+    UNIQUE NONCLUSTERED ([Descrizione] ASC)
+);
+
+CREATE TABLE [dbo].[Utenti] (
+    [IdUtente] INT           IDENTITY (1, 1) NOT NULL,
+    [Username] NVARCHAR (50) NOT NULL,
+    [Password] NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdUtente] ASC)
+);
+
