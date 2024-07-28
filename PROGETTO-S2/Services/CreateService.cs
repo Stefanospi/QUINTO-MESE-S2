@@ -18,33 +18,6 @@ namespace PROGETTO_S2.Services
             "VALUES (@DataPrenotazione,@NumProgressivo, @Anno, @SoggiornoDal,@SoggiornoAl, @Caparra, @Tariffa, @TipoPensione, @IdPersona, @IdCamera)";
         private const string GET_PERSONA_COMMAND = "SELECT * FROM Persone;";
         private const string GET_PRENOTAZIONE_COMMAND = "SELECT * FROM Prenotazioni;";
-        private const string CHECKOUT_COMMAND = @"
-            SELECT 
-                p.IdPrenotazione,
-                c.NumeroCamera,
-                p.SoggiornoDal,
-                p.SoggiornoAl,
-                p.Tariffa,
-                p.Caparra,
-                sa.Descrizione AS ServizioAggiuntivo,
-                psa.Data AS DataServizio,
-                psa.Quantita,
-                psa.Prezzo,
-                (p.Tariffa - p.Caparra + COALESCE(SUM(psa.Prezzo * psa.Quantita), 0)) AS ImportoDaSaldare
-            FROM 
-                Prenotazioni p
-            JOIN 
-                Camere c ON p.IdCamera = c.IdCamera
-            LEFT JOIN 
-                PrenotazioniServiziAgg psa ON p.IdPrenotazione = psa.IdPrenotazione
-            LEFT JOIN 
-                ServiziAgg sa ON psa.IdServizioAgg = sa.IdServizioAgg
-            WHERE 
-                p.IdPrenotazione = @IdPrenotazione
-            GROUP BY 
-                p.IdPrenotazione, c.NumeroCamera, p.SoggiornoDal, p.SoggiornoAl, p.Tariffa, p.Caparra, sa.Descrizione, psa.Data, psa.Quantita, psa.Prezzo
-            ORDER BY 
-                p.IdPrenotazione;";
         public CreateService(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Authdb");

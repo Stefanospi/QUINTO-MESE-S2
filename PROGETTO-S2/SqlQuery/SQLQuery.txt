@@ -1,0 +1,121 @@
+﻿-----------------------------------------------------------------------------------------------
+        
+        QUERY PER RICERCA CON CODICE FISCALE:
+
+        private const string GET_PRENOTAZIONI_COMMAND = @"
+            SELECT pr.*, p.Nome, p.Cognome, c.NumeroCamera, c.Descrizione, c.Tipologia 
+            FROM Prenotazioni pr 
+            JOIN Persone p ON p.IdPersona = pr.IdPersona 
+            JOIN Camere c ON c.IdCamera = pr.IdCamera 
+            WHERE p.CF = @CF;";
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER RICERCA CON TIPO PENSIONE:
+
+        private const string GET_PRENOTAZIONI_BY_TIPO_PENSIONE_COMMAND = @"
+            SELECT pr.*, p.Nome, p.Cognome, c.NumeroCamera, c.Descrizione, c.Tipologia 
+            FROM Prenotazioni pr 
+            JOIN Persone p ON p.IdPersona = pr.IdPersona 
+            JOIN Camere c ON c.IdCamera = pr.IdCamera 
+            WHERE pr.TipoPensione = @TipoPensione;";
+
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER INSERIMENTO CLIENTE:
+
+ private const string CREATE_PERSONA_COMMAND = "" +
+            "INSERT INTO Persone (Nome, Cognome, CF, Email, Telefono, Cellulare, Città, Provincia) " +
+            "OUTPUT INSERTED.IdPersona " +
+            "VALUES (@Nome, @Cognome, @CF, @Email, @Telefono, @Cellulare, @Città, @Provincia)";
+
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER INSERIMENTO PRENOTAZIONE:
+
+        private const string CREATE_PRENOTAZIONE_COMMAND = "" +
+            "INSERT INTO [dbo].[Prenotazioni] (DataPrenotazione, NumProgressivo, Anno, SoggiornoDal, SoggiornoAl, Caparra, Tariffa, TipoPensione, IdPersona, IdCamera) " +
+            "OUTPUT INSERTED.IdPrenotazione " +
+            "VALUES (@DataPrenotazione,@NumProgressivo, @Anno, @SoggiornoDal,@SoggiornoAl, @Caparra, @Tariffa, @TipoPensione, @IdPersona, @IdCamera)";
+-----------------------------------------------------------------------------------------------
+        
+        QUERY PER VISUALIZZARE TUTTE LE PERSONE:
+
+        private const string GET_PERSONA_COMMAND = "SELECT * FROM Persone;";
+
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER VISUALIZZARE TUTTE LE PRENOTAZIONI:
+        
+        private const string GET_PRENOTAZIONE_COMMAND = "SELECT * FROM Prenotazioni;";
+
+-----------------------------------------------------------------------------------------------
+
+            QUERY PER IL CHECKOUT:
+
+             private const string GET_STANZA_PERIODO_TARIFFA = @"
+            SELECT 
+                C.NumeroCamera, 
+                P.SoggiornoDal, 
+                P.SoggiornoAl, 
+                P.Tariffa,
+                P.Caparra
+            FROM 
+                Prenotazioni AS P 
+            INNER JOIN 
+                Camere AS C ON P.IdCamera = C.IdCamera 
+            WHERE 
+                P.IdPrenotazione = @IdPrenotazione";
+
+        
+        private const string GET_SERVIZI_BY_PRENOTAZIONE = @"
+            SELECT 
+                S.Descrizione, 
+                PS.Data, 
+                PS.Quantita, 
+                PS.Prezzo 
+            FROM 
+                ServiziAgg AS S 
+            INNER JOIN 
+                PrenotazioniServiziAgg AS PS ON S.IdServizioAgg = PS.IdServizioAgg 
+            WHERE 
+                PS.IdPrenotazione = @IdPrenotazione";
+
+
+        private const string GET_IMPORTO = @"
+            SELECT 
+                (p.Tariffa - p.Caparra + ISNULL(SUM(ps.Quantita * ps.Prezzo), 0)) AS ImportoDaSaldare
+            FROM 
+                Prenotazioni AS p 
+            LEFT JOIN 
+                PrenotazioniServiziAgg AS ps ON p.IdPrenotazione = ps.IdPrenotazione 
+            WHERE 
+                p.IdPrenotazione = @IdPrenotazione 
+            GROUP BY 
+                p.Tariffa, p.Caparra";
+
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER IL LOGIN:
+
+        private const string LOGIN_COMMAND = "SELECT * FROM Utenti WHERE Username = @Username AND Password = @Password";
+
+-----------------------------------------------------------------------------------------------
+        QUERY PER LA REGISTRAZIONE:
+
+
+        private const string REGISTER_COMMAND = "INSERT INTO Utenti (Username, Password) VALUES (@Username, @Password)";
+
+-----------------------------------------------------------------------------------------------
+        
+        QUERY PER AGGIUNGERE UN SERVIZIO ALLA PRENOTAZIONE:
+
+        private const string AGG_SERVIZIO_COMMAND = "" +
+            "INSERT INTO PrenotazioniServiziAgg(IdPrenotazione, IdServizioAgg, Data, Quantita, Prezzo) " +
+            "VALUES (@IdPrenotazione, @IdServizioAgg, @Data, @Quantita, @Prezzo);";
+
+-----------------------------------------------------------------------------------------------
+
+        QUERY PER PRENDERE TUTTI I SERVIZI AGGIUNTIVI:
+
+        private const string GET_ALL_SERVIZIAGG_COMMAND = "SELECT IdServizioAgg,Descrizione FROM ServiziAgg";
+
