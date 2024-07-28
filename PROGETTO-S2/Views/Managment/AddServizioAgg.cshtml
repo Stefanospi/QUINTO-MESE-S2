@@ -3,51 +3,50 @@
     var serviziAgg = ViewBag.serviziAgg as List<ServizioAgg>;
 }
 
-<h2>Aggiungi Servizio Aggiuntivo</h2>
+<h2 class="mb-4 font-personal">Aggiungi Servizio Aggiuntivo</h2>
+<hr />
 
-<form asp-action="AddServizioAgg" method="post">
-    <div class="form-group">
-        <label asp-for="IdServizioAgg" class="control-label">Servizio Aggiuntivo</label>
-        <select asp-for="IdServizioAgg" class="form-control">
+<form asp-action="AddServizioAgg" method="post" class="border-personal p-4">
+    <div class="form-group mb-3">
+        <label asp-for="IdServizioAgg" class="control-label fst-italic">Servizio Aggiuntivo</label>
+        <select asp-for="IdServizioAgg" class="form-control border-personal">
             <option value="">Seleziona un servizio</option>
             @foreach (var s in serviziAgg)
             {
                 <option value="@s.IdServizioAgg">@s.Descrizione</option>
             }
-
         </select>
         <span asp-validation-for="IdServizioAgg" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Data" class="control-label"></label>
-        <input asp-for="Data" class="form-control" type="date" />
+    <div class="form-group mb-3">
+        <label asp-for="Data" class="control-label fst-italic">Data</label>
+        <input asp-for="Data" class="form-control border-personal" type="date" />
         <span asp-validation-for="Data" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Quantita" class="control-label"></label>
-        <input asp-for="Quantita" class="form-control" />
+    <div class="form-group mb-3">
+        <label asp-for="Quantita" class="control-label fst-italic">Quantità</label>
+        <input asp-for="Quantita" class="form-control border-personal" />
         <span asp-validation-for="Quantita" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Prezzo" class="control-label">Prezzo (x quantità)</label>
-        <input asp-for="Prezzo" class="form-control" />
+    <div class="form-group mb-3">
+        <label asp-for="Prezzo" class="control-label fst-italic">Prezzo (x quantità)</label>
+        <input asp-for="Prezzo" class="form-control border-personal" />
         <span asp-validation-for="Prezzo" class="text-danger"></span>
     </div>
 
     <input type="hidden" asp-for="IdPrenotazione" />
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Aggiungi Servizio</button>
-        <a asp-controller="Home"asp-action="ElencoPrenotazioni" class="btn btn-secondary">Indietro</a>
+    <div class="form-group mt-4">
+        <button type="submit" class="btn btn-personal">Aggiungi Servizio</button>
+        <a asp-controller="Home" asp-action="ElencoPrenotazioni" class="btn btn-personal2">Indietro</a>
     </div>
 </form>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
     }
 }
