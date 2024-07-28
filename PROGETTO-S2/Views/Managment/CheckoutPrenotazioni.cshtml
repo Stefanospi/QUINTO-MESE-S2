@@ -4,44 +4,50 @@
     ViewData["Title"] = "Checkout";
 }
 
-<h2>Checkout Details</h2>
+<h2 class="mb-4 font-personal">Dettagli del Checkout</h2>
+<hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Numero Camera</th>
-            <th>Soggiorno Dal</th>
-            <th>Soggiorno Al</th>
-            <th>Tariffa</th>
-            <th>Caparra</th>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="bg-personal">
+            <tr class="text-white">
+                <th>Numero Camera</th>
+                <th>Soggiorno Dal</th>
+                <th>Soggiorno Al</th>
+                <th>Tariffa</th>
+                <th>Caparra</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fst-italic">@Model.NumeroCamera</td>
+                <td class="fst-italic">@Model.SoggiornoDal.ToShortDateString()</td>
+                <td class="fst-italic">@Model.SoggiornoAl.ToShortDateString()</td>
+                <td class="fst-italic">@Model.Tariffa.ToString("C")</td>
+                <td class="fst-italic">@Model.Caparra.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.NumeroCamera</td>
-            <td>@Model.SoggiornoDal.ToShortDateString()</td>
-            <td>@Model.SoggiornoAl.ToShortDateString()</td>
-            <td>@Model.Tariffa.ToString("C")</td>
-            <td>@Model.Caparra.ToString("C")</td>
+<h2 class="mt-4 mb-4 font-personal">Servizi Aggiuntivi</h2>
+<hr />
 
-        </tr>
-    </tbody>
-</table>
-
-<h2>Additional Services</h2>
-<select id="additionalServicesDropdown">
-    @foreach (var servizio in Model.ServiziAgg)
-    {
-        <option readonly value="@servizio.ServizioAgg">
-            @servizio.ServizioAgg - @servizio.Quantita x
-            @(servizio.Prezzo.HasValue ? servizio.Prezzo.Value.ToString("C") : "N/A")
-        </option>
-    }
-</select>
+<div class="form-group">
+    <select id="additionalServicesDropdown" class="form-control border-personal">
+        @foreach (var servizio in Model.ServiziAgg)
+        {
+            <option value="@servizio.ServizioAgg">
+                @servizio.ServizioAgg - @servizio.Quantita x
+                @(servizio.Prezzo.HasValue ? servizio.Prezzo.Value.ToString("C") : "N/A")
+            </option>
+        }
+    </select>
+</div>
 
 <!-- Centered Importo da Saldare -->
-<div style="text-align: center; margin-top: 20px;">
-    <h2>Importo da Saldare</h2>
-    <h3>@Model.ImportoDaSaldare.ToString("C")</h3>
+<div class="text-center mt-4">
+    <h2 class="font-personal mb-3">Importo da Saldare</h2>
+    <hr />
+    <h3 class="bg-personal p-3 border-personal">@Model.ImportoDaSaldare.ToString("C")</h3>
 </div>
